@@ -1,0 +1,22 @@
+- name: Windows update
+  hosts: all
+  gather_facts: no
+  vars_files:
+    #Nome do seu arquivo de chaves
+  vars:
+      ansible_become: yes
+      ansible_become_method: runas
+      ansible_connection: winrm
+      ansible_become_user: #nome ansible user
+      ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+      ansible_become_pass: "{{ pass }}"
+
+  tasks:
+    - name: Windows_update
+      win_updates:
+        category_names: #updates que o script executa 
+          - CriticalUpdates
+          - SecurityUpdates
+          - Updates
+     reboot: yes
+     reboot_timeout: 420
